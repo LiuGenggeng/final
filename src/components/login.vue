@@ -1,8 +1,8 @@
 <template>
 <div>
-  <input class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account">
-  <input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password">
-  <button type="submit" class="btn btn-default" @click="login">登录</button>
+  <input class="form-control" id="inputEmail3" placeholder="请输入账号2" v-model="account">
+  <input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码2" v-model="password">
+  <button type="submit" class="btn btn-default" @click="login">登录2</button>
 </div>
 </template>
 
@@ -11,6 +11,7 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 export default {
+  name: 'login',
   data () {
     return {
       account: '',
