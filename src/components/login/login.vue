@@ -1,17 +1,24 @@
 <template>
 <div>
-  <input class="form-control" id="inputEmail3" placeholder="请输入账号2" v-model="account">
-  <input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码2" v-model="password">
-  <button type="submit" class="btn btn-default" @click="login">登录2</button>
+  <vue-top></vue-top>
+  <div>
+    用户名:<input class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account">
+    密码:<input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password">
+    <button type="submit" class="btn btn-default" @click="login">登录</button>
+  </div>
 </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+import Top from '../common/top.vue'
 Vue.use(VueResource)
 export default {
   name: 'login',
+  components: {
+    'vue-top': Top
+  },
   data () {
     return {
       account: '',
@@ -23,7 +30,7 @@ export default {
       // 获取已有账号密码
       Vue.http.get('/api/login/getAccount')
         .then((response) => {
-          // 响应成功回调
+          // 响应成功回调l
           console.log(response)
           let params = {
             account: this.account,
