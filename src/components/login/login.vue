@@ -1,10 +1,10 @@
 <template>
 <div>
   <vue-top></vue-top>
-  <div>
-    用户名:<input class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account">
-    密码:<input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password">
-    <button type="submit" class="btn btn-default" @click="login">登录</button>
+  <div class="login_area">
+    <div class="line"><span class="user_name">用户名:</span><input class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account"></div>
+    <div class="line"><span class="user_pass">密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password"></div>
+    <button type="submit" class="btn btn-default login_btn" @click="login">登录</button>
   </div>
 </div>
 </template>
@@ -49,3 +49,27 @@ export default {
   }
 }
 </script>
+<style scoped lang='scss'>
+.line {
+  text-align: left;
+}
+.login_area {
+  width: 450px;
+  display: block;
+  margin: 10px auto;
+}
+.user_name, .user_pass {
+  display: inline-block;
+  width: 100px;
+}
+.login_btn {
+  width: 75px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #c3c3c3;
+  background-color: #3c3c3c;
+  cursor: pointer;
+}
+</style>
