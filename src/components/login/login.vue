@@ -54,7 +54,7 @@ export default {
   text-align: left;
 }
 .login_area {
-  width: 450px;
+  width: 240px;
   display: block;
   margin: 10px auto;
 }
@@ -69,7 +69,8 @@ export default {
   text-align: center;
   border-radius: 5px;
   border: 1px solid #c3c3c3;
-  background-color: #3c3c3c;
+  background-color: #41b882;
   cursor: pointer;
+  margin-top: 20px;
 }
 </style>
