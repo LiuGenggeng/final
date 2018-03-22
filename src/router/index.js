@@ -22,6 +22,16 @@ export default new Router({
       path: '/addStuff',
       name: 'addStuff',
       component: addStuff
+    },
+    {
+      path: 'stuffManage',
+      name: 'stuffManage',
+      component: stuffManage
+    },
+    {
+      path: 'loginRecode',
+      name: 'loginRecode',
+      component: loginRecode
     }
   ]
 })
