@@ -3,8 +3,8 @@
   <vue-top :admin="admin"></vue-top>
   <div class="function_area">
     <div><router-link :to="{name:'addStuff'}">添加公司人员</router-link></div>
-    <div><router-link :to="{name:'login'}">人员管理</router-link></div>
-    <div><router-link :to="{name:'login'}">申请wifi登陆密码记录</router-link></div>
+    <div><router-link :to="{name:'stuffManage'}">人员管理</router-link></div>
+    <div><router-link :to="{name:'loginRecode'}">申请wifi登陆密码记录</router-link></div>
   </div>
 </div>
 </template>
