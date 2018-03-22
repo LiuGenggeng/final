@@ -2,7 +2,10 @@
 <div>
   <vue-top :admin="admin"></vue-top>
   <div class="function_area">
-    添加员工
+    <div class="add_title">添加员工</div>
+    <div class="line"><span class="user_name">用户名:</span><input class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account"></div>
+    <div class="line"><span class="user_pass">密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password"></div>
+    <button type="submit" class="btn btn-default login_btn" @click="addStuff">确认添加</button>
   </div>
 </div>
 </template>
@@ -19,7 +22,9 @@ export default {
   },
   data () {
     return {
-      admin: 1
+      admin: 1,
+      account: '',
+      password: ''
     }
   },
   methods: {
@@ -37,7 +42,6 @@ export default {
 
   & > div {
     text-align: left;
-    height: 50px;
 
     & > a {
       color: #2c3e50;
@@ -50,6 +54,32 @@ export default {
       border: 1px solid #757575;
       border-radius: 2px;
     }
+  }
+  .add_title {
+    width: 125px;
+    height: 40px;
+    line-height: 40px;
+    border: none;
+    background-color: #41b882;
+    border-radius: 5px;
+    text-align: center;
+    color: #ffffff;
+  }
+  .user_name, .user_pass {
+    display: inline-block;
+    width: 100px;
+  }
+  .login_btn {
+    width: 75px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #c3c3c3;
+    background-color: #41b882;
+    cursor: pointer;
+    margin-top: 20px;
+    color: #ffffff;
   }
 }
 </style>

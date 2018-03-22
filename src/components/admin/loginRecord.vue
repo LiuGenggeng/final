@@ -2,9 +2,7 @@
 <div>
   <vue-top :admin="admin"></vue-top>
   <div class="function_area">
-    <div><router-link :to="{name:'addStuff'}">添加公司人员</router-link></div>
-    <div><router-link :to="{name:'stuffManage'}">人员管理</router-link></div>
-    <div><router-link :to="{name:'loginRecord'}">申请wifi登陆密码记录</router-link></div>
+    <div class="title">添加员工</div>
   </div>
 </div>
 </template>
@@ -15,7 +13,7 @@ import VueResource from 'vue-resource'
 import Top from '../common/top.vue'
 Vue.use(VueResource)
 export default {
-  name: 'function_list',
+  name: 'addStuff',
   components: {
     'vue-top': Top
   },

@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Login from '../components/login/login'
 import admin from '../components/admin/function_page'
 import addStuff from '../components/admin/addStuff'
+import stuffManage from '../components/admin/stuffManage'
+import loginRecord from '../components/admin/loginRecord'
 
 Vue.use(Router)
 
@@ -24,14 +26,14 @@ export default new Router({
       component: addStuff
     },
     {
-      path: 'stuffManage',
+      path: '/stuffManage',
       name: 'stuffManage',
       component: stuffManage
     },
     {
-      path: 'loginRecode',
-      name: 'loginRecode',
-      component: loginRecode
+      path: '/loginRecord',
+      name: 'loginRecord',
+      component: loginRecord
     }
   ]
 })
