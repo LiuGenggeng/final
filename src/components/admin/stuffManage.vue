@@ -24,7 +24,9 @@ export default {
       admin: 1,
       items: [
         {name: 'liugeng', id: '1'},
-        {name: 'liwenjing', id: '2'}
+        {name: 'liwenjing', id: '2'},
+        {name: 'liuhao', id: '3'},
+        {name: 'liuyilan', id: '4'}
       ]
     }
   },
@@ -37,8 +39,13 @@ export default {
 </script>
 <style scoped lang='scss'>
 .stuff_area {
+  width: 800px;
+  margin: 0 auto;
+  text-align: left;
+
   .stuff_content {
     display: inline-block;
+    text-align: center;
   }
 }
 </style>

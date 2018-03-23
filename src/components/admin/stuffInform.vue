@@ -1,9 +1,9 @@
 <template>
 <div>
   <div class="stuff">
-    姓名: {{item.name}}<br/>
-    ID: {{item.id}}
-    <button v-bind:class="{active: isActive}">禁用</button>
+    <p class="stuff_name">姓名: {{item.name}}</p>
+    <p class="stuf_id">ID: {{item.id}}</p>
+    <button v-bind:class="{active: isActive}" @click="isActive = !isActive">{{activeBtn}}</button>
   </div>
 </div>
 </template>
@@ -20,7 +20,17 @@ export default {
   },
   data () {
     return {
-      isActive: false
+      isActive: false,
+      activeBtn: '禁用'
+    }
+  },
+  watch: {
+    isActive (curVal, oldVal) {
+      if (curVal) {
+        this.activeBtn = '启用'
+      } else {
+        this.activeBtn = '禁用'
+      }
     }
   },
   props: ['item']
@@ -33,7 +43,7 @@ export default {
   height: 190px;
   background-color: #ffffff;
   border: 1px solid rgba(187, 187, 187, 1);
-  margin-left: 30px;
+  margin: 30px 30px;
 
   & > button {
     margin: 10px auto;
@@ -44,6 +54,10 @@ export default {
     text-align: center;
     background-color: #cacaca;
     border-radius: 10px;
+    cursor: pointer;
+  }
+  & > button.active {
+    background-color: #41b883;
   }
 }
 </style>
