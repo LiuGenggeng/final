@@ -5,11 +5,19 @@ import admin from '../components/admin/function_page'
 import addStuff from '../components/admin/addStuff'
 import stuffManage from '../components/admin/stuffManage'
 import loginRecord from '../components/admin/loginRecord'
-
+import stuffFunction from '../components/stuff/stuff_function'
+import applyPassword from '../components/stuff/applyPassword'
+import changePassword from '../components/stuff/changePassword'
+import outer from '../components/outer/outer'
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/',
+      name: 'rootPath',
+      component: admin
+    },
     {
       path: '/login',
       name: 'login',
@@ -34,6 +42,26 @@ export default new Router({
       path: '/loginRecord',
       name: 'loginRecord',
       component: loginRecord
+    },
+    {
+      path: '/stuff',
+      name: 'stuffFunction',
+      component: stuffFunction
+    },
+    {
+      path: '/applyPassword',
+      name: 'applyPassword',
+      component: applyPassword
+    },
+    {
+      path: '/changePassword',
+      name: 'changePassword',
+      component: changePassword
+    },
+    {
+      path: '/outer',
+      name: 'outer',
+      component: outer
     }
   ]
 })

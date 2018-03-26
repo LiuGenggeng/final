@@ -51,10 +51,20 @@ export default {
 </script>
 <style scoped lang='scss'>
 .line {
+  margin-top: 30px;
   text-align: left;
+
+  & > input {
+    width: 200px;
+    height: 30px;
+    line-height: 30px;
+    border: none;
+    border-radius: 5px;
+    border: 1px solid #c3c3c3;
+  }
 }
 .login_area {
-  width: 240px;
+  width: 400px;
   display: block;
   margin: 10px auto;
 }
@@ -72,5 +82,7 @@ export default {
   background-color: #41b882;
   cursor: pointer;
   margin-top: 20px;
+  color: #ffffff;
+  font-size: 14px;
 }
 </style>

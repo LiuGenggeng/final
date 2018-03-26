@@ -9,13 +9,22 @@
       <span class="outerPerson" @click="showOuter" v-bind:class="outer">外部人员</span>
     </div>
     <v-table
-      :width="1000"
+      :width="590"
       :columns="columns"
       :table-data="tableData"
       :show-vertical-border="false"
       row-hover-color="#eee"
       row-click-color="#edf7ff"
-      @on-custom-comp="customCompFunc"
+      v-if="insert === 'current'"
+    ></v-table>
+    <v-table
+      :width="750"
+      :columns="outerColumns"
+      :table-data="outerData"
+      :show-vertical-border="false"
+      row-hover-color="#eee"
+      row-click-color="#edf7ff"
+      v-if="outer === 'current'"
     ></v-table>
   </div>
 </div>
@@ -44,12 +53,23 @@ export default {
         {'name': '周伟', 'tel': '197*****1123', 'hobby': '钢琴、书法、唱歌', 'address': '上海市青浦区青浦镇章浜路24号'},
         {'name': '吴伟', 'tel': '183*****6678', 'hobby': '钢琴、书法、唱歌', 'address': '上海市松江区乐都西路867-871号'}
       ],
+      outerData: [
+        {'name': '赵伟', 'tel': '156*****1987', 'hobby': '钢琴、书法、唱歌', 'stuffName': '赵伟'},
+        {'name': '李伟', 'tel': '182*****1538', 'hobby': '钢琴、书法、唱歌', 'stuffName': '赵伟'},
+        {'name': '孙伟', 'tel': '161*****0097', 'hobby': '钢琴、书法、唱歌', 'stuffName': '赵伟'},
+        {'name': '周伟', 'tel': '197*****1123', 'hobby': '钢琴、书法、唱歌', 'stuffName': '赵伟'},
+        {'name': '吴伟', 'tel': '183*****6678', 'hobby': '钢琴、书法、唱歌', 'stuffName': '赵伟'}
+      ],
       columns: [
         {field: 'name', title: '姓名', width: 100, titleAlign: 'center', columnAlign: 'center'},
         {field: 'tel', title: '开始时间', width: 160, titleAlign: 'center', columnAlign: 'center'},
+        {field: 'hobby', title: '已经连接时间', width: 330, titleAlign: 'center', columnAlign: 'center'}
+      ],
+      outerColumns: [
+        {field: 'name', title: '姓名', width: 100, titleAlign: 'center', columnAlign: 'center'},
+        {field: 'tel', title: '开始时间', width: 160, titleAlign: 'center', columnAlign: 'center'},
         {field: 'hobby', title: '已经连接时间', width: 330, titleAlign: 'center', columnAlign: 'center'},
-        {field: 'address', title: '操作', titleAlign: 'center', columnAlign: 'left'},
-        {field: 'custome-adv', title: '操作', width: 200, titleAlign: 'center', columnAlign: 'center', componentName: 'table-operation', isResize: true}
+        {field: 'stuffName', title: '申请员工', width: 160, titleAlign: 'center', columnAlign: 'center'}
       ]
     }
   },
@@ -61,47 +81,9 @@ export default {
     showOuter () {
       this.insert = ''
       this.outer = 'current'
-    },
-    customCompFunc (params) {
-      console.log(params)
-      if (params.type === 'delete') { // do delete operation
-        this.$delete(this.tableData, params.index)
-      } else if (params.type === 'edit') { // do edit operation
-        alert(`行号：${params.index} 姓名：${params.rowData['name']}`)
-      }
     }
   }
 }
-// 自定义列组件
-Vue.component('table-operation', {
-  template: `<span>
-    <a href="" @click.stop.prevent="update(rowData,index)">编辑</a>&nbsp;
-    <a href="" @click.stop.prevent="deleteRow(rowData,index)">删除</a>&nbsp
-    </span>`,
-  props: {
-    rowData: {
-      type: Object
-    },
-    field: {
-      type: String
-    },
-    index: {
-      type: Number
-    }
-  },
-  methods: {
-    update () {
-      // 参数根据业务场景随意构造
-      let params = {type: 'edit', index: this.index, rowData: this.rowData}
-      this.$emit('on-custom-comp', params)
-    },
-    deleteRow () {
-      // 参数根据业务场景随意构造
-      let params = {type: 'delete', index: this.index}
-      this.$emit('on-custom-comp', params)
-    }
-  }
-})
 </script>
 <style scoped lang='scss'>
 .record_area {
