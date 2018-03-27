@@ -27,20 +27,23 @@ export default {
   },
   methods: {
     login () {
+      let params = {
+        account: this.account,
+        password: this.password,
+        num: Math.random()
+      }
       // 获取已有账号密码
-      Vue.http.get('/api/login/getAccount')
+      Vue.http.get('/api/login/getAccount', {params: params}, {emulateJSON: true})
         .then((response) => {
           // 响应成功回调l
-          console.log(response)
-          let params = {
-            account: this.account,
-            password: this.password
+          console.log(response.body)
+          if (response.body.code === 0) {
+            alert('登陆失败')
+          } else {
+            this.$router.push({path: '/admin'})
           }
           // 创建一个账号密码
-          return this.$http.post('/api/login/createAccount', params)
-        })
-        .then((response) => {
-          console.log(response)
+          // return this.$http.post('/api/login/createAccount', params)
         })
         .catch((reject) => {
           console.log(reject)
