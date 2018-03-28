@@ -2,8 +2,8 @@
 <div>
   <vue-top></vue-top>
   <div class="login_area">
-    <div class="line"><span class="user_name">用户名:</span><input class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account"></div>
-    <div class="line"><span class="user_pass">密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password"></div>
+    <div class="line"><span class="user_name">用户名:</span><input  typf="text" class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account"></div>
+    <div class="line"><span class="user_pass">密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password" @keyup="showLogin($event)"></div>
     <button type="submit" class="btn btn-default login_btn" @click="login">登录</button>
   </div>
 </div>
@@ -48,6 +48,11 @@ export default {
         .catch((reject) => {
           console.log(reject)
         })
+    },
+    showLogin: function (ev) {
+      if (ev.keyCode === 13) {
+        this.login()
+      }
     }
   }
 }
