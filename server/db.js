@@ -13,10 +13,14 @@ const loginSchema = mongoose.Schema({
     account : String,
     password : String
 });
-
+const stuffSchema = mongoose.Schema({
+	account: String,
+	password: String
+});
 /************** 定义模型Model **************/
 const Models = {
-    Login : mongoose.model('Login',loginSchema)
+    Login : mongoose.model('Login',loginSchema),
+    Stuff : mongoose.model('Stuff',stuffSchema)
 }
 
 module.exports = Models;

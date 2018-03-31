@@ -29,7 +29,27 @@ export default {
   },
   methods: {
     addStuff () {
-      console.log(1)
+      let params = {
+        account: this.account,
+        password: this.password,
+        num: Math.random()
+      }
+      // 获取已有账号密码
+      Vue.http.post('/api/login/createStuff', params)
+        .then((response) => {
+          // 响应成功回调l
+          console.log(response.body)
+          if (response.body.code === 0) {
+            alert('创建失败')
+          } else {
+            alert('创建成功')
+          }
+          // 创建一个账号密码
+          // return this.$http.post('/api/login/createAccount', params)
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
     }
   }
 }

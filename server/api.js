@@ -48,4 +48,30 @@ router.get('/api/login/getAccount', (req, res) => {
     });
 });
 
+router.post('/api/login/createStuff', (req, res) => {
+    // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
+    let newStuffAccount = new models.Stuff({
+        account : req.body.account,
+        password : req.body.password
+    });
+    console.log(req.body.account)
+    console.log(req.body.password)
+    // 保存数据newAccount数据进mongoDB
+    newStuffAccount.save((err,data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                login: true,
+                data: data
+            }
+            if (data.length  === 0) {
+                sendData.code = 0;
+                sendData.login = false;
+            }
+            res.send(sendData);
+        }
+    });
+});
 module.exports = router;
