@@ -74,4 +74,25 @@ router.post('/api/login/createStuff', (req, res) => {
         }
     });
 });
+// 获取已有公司员工账号接口
+router.get('/api/login/getStuffAccount', (req, res) => {
+    // 通过模型去查找数据库
+    models.Stuff.find({}, (err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                login: true,
+                data: data
+            }
+            if (data.length  === 0) {
+                sendData.code = 0;
+                sendData.login = false;
+                sendData.data = [];
+            }
+            res.send(sendData);
+        }
+    });
+});
 module.exports = router;

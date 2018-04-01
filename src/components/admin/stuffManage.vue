@@ -23,16 +23,32 @@ export default {
     return {
       admin: 1,
       items: [
-        {name: 'liugeng', id: '1'},
-        {name: 'liwenjing', id: '2'},
-        {name: 'liuhao', id: '3'},
-        {name: 'liuyilan', id: '4'}
+        {account: 'liugeng', id: '1'},
+        {account: 'liwenjing', id: '2'},
+        {account: 'liuhao', id: '3'},
+        {account: 'liuyilan', id: '4'}
       ]
     }
   },
+  mounted () {
+    this.getStuff()
+  },
   methods: {
-    addStuff () {
-      console.log(1)
+    getStuff () {
+      // 获取已有账号密码
+      Vue.http.get('/api/login/getStuffAccount')
+        .then((response) => {
+          // 响应成功回调l
+          console.log(response.body)
+          if (response.body.code === 0) {
+            alert('无stuff')
+          } else {
+            this.items = response.body.data
+          }
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
     }
   }
 }

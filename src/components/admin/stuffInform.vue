@@ -1,8 +1,8 @@
 <template>
 <div>
   <div class="stuff">
-    <p class="stuff_name">姓名: {{item.name}}</p>
-    <p class="stuf_id">ID: {{item.id}}</p>
+    <p class="stuff_name">姓名: {{item.account}}</p>
+    <p class="stuf_id">ID: {{item._id}}</p>
     <button v-bind:class="{active: isActive}" @click="isActive = !isActive">{{activeBtn}}</button>
   </div>
 </div>
