@@ -23,10 +23,7 @@ export default {
     return {
       admin: 1,
       items: [
-        {account: 'liugeng', id: '1'},
-        {account: 'liwenjing', id: '2'},
-        {account: 'liuhao', id: '3'},
-        {account: 'liuyilan', id: '4'}
+        {account: 'liugeng', id: '1', banner: false}
       ]
     }
   },

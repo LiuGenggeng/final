@@ -52,7 +52,8 @@ router.post('/api/login/createStuff', (req, res) => {
     // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
     let newStuffAccount = new models.Stuff({
         account : req.body.account,
-        password : req.body.password
+        password : req.body.password,
+        banner: false
     });
     console.log(req.body.account)
     console.log(req.body.password)
@@ -90,6 +91,29 @@ router.get('/api/login/getStuffAccount', (req, res) => {
                 sendData.code = 0;
                 sendData.login = false;
                 sendData.data = [];
+            }
+            res.send(sendData);
+        }
+    });
+});
+
+// 修改员工权限
+router.post('/api/login/setStuffBanner', (req, res) => {
+    // 通过模型去查找数据库
+    const id = req.body.id;
+    const newBanner = req.body.banner;
+    console.log(id, newBanner);
+    models.Stuff.update({_id: id}, {banner: newBanner}, (err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                login: true,
+                data: data
+            }
+            if (data.length  === 0) {
+                sendData.code = 0;
             }
             res.send(sendData);
         }

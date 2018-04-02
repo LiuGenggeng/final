@@ -15,7 +15,8 @@ const loginSchema = mongoose.Schema({
 });
 const stuffSchema = mongoose.Schema({
 	account: String,
-	password: String
+	password: String,
+	banner: Boolean
 });
 /************** 定义模型Model **************/
 const Models = {
