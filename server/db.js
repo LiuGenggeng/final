@@ -16,12 +16,21 @@ const loginSchema = mongoose.Schema({
 const stuffSchema = mongoose.Schema({
 	account: String,
 	password: String,
-	banner: Boolean
+	banner: Boolean,
+	onLine: Boolean
 });
+const outerSchema = mongoose.Schema({
+	name: String,
+	EncryptedName: String,
+	password: String,
+	stuffId: String,
+	startTime: String
+})
 /************** 定义模型Model **************/
 const Models = {
     Login : mongoose.model('Login',loginSchema),
-    Stuff : mongoose.model('Stuff',stuffSchema)
+    Stuff : mongoose.model('Stuff',stuffSchema),
+    Outer : mongoose.model('Outer',outerSchema)
 }
 
 module.exports = Models;

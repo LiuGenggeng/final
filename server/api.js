@@ -23,6 +23,7 @@ router.post('/api/login/createAccount', (req, res) => {
         }
     });
 });
+
 // 获取已有账号接口
 router.get('/api/login/getAccount', (req, res) => {
     // 通过模型去查找数据库
@@ -48,12 +49,14 @@ router.get('/api/login/getAccount', (req, res) => {
     });
 });
 
+//管理员添加员工接口
 router.post('/api/login/createStuff', (req, res) => {
     // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
     let newStuffAccount = new models.Stuff({
         account : req.body.account,
         password : req.body.password,
-        banner: false
+        banner: false,
+        onLine: false
     });
     console.log(req.body.account)
     console.log(req.body.password)
@@ -75,6 +78,7 @@ router.post('/api/login/createStuff', (req, res) => {
         }
     });
 });
+
 // 获取已有公司员工账号接口
 router.get('/api/login/getStuffAccount', (req, res) => {
     // 通过模型去查找数据库
@@ -119,4 +123,40 @@ router.post('/api/login/setStuffBanner', (req, res) => {
         }
     });
 });
+
+// 员工给外来人员申请密码
+router.get('/api/login/getKey', (req, res) => {
+    // 通过模型去查找数据库
+    const name = req.query.name;
+    const EncryptedName = String(req.query.name) + '1';
+    const password = '123456789';
+    const stuffId = req.query.id;
+    const startTime = req.query.time;
+    console.log(name, startTime);
+    let outerKey = new models.Outer({
+        name : name,
+        EncryptedName : EncryptedName,
+        password : password,
+        stuffId : stuffId,
+        startTime : startTime
+    });
+
+    outerKey.save((err,data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                login: true,
+                password: '123456789'
+            }
+            if (data.length  === 0) {
+                sendData.code = 0;
+                sendData.login = false;
+            }
+            res.send(sendData);
+        }
+    });
+});
+
 module.exports = router;
