@@ -29,14 +29,14 @@ export default {
     addOuter () {
       let params = {
         name: this.outerName,
-        id: '123912102391820391283',
+        id: '5abf4969e4753852231f083a',
         time: (new Date()).getTime(),
         num: Math.random()
       }
       // 获取已有账号密码
       Vue.http.get('/api/login/getKey', {params: params}, {emulateJSON: true})
         .then((response) => {
-          // 响应成功回调l
+          // 响应成功回调
           console.log(response.body)
           if (response.body.code === 0) {
             alert('创建失败')

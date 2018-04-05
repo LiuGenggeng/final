@@ -159,4 +159,33 @@ router.get('/api/login/getKey', (req, res) => {
     });
 });
 
+// 员工修改密码
+router.post('/api/login/changeStuffPassword', (req, res) => {
+    // 通过模型去查找数据库
+    const id = req.body.id;
+    const oldPass = req.body.oldPass;
+    const newPass = req.body.newPass;
+    console.log(id, oldPass, newPass);
+    models.Stuff.find({_id: id}, (err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                login: true,
+                data: data
+            }
+            console.log(data[0].password);
+            if (data.length  === 0 || data[0].password !== oldPass) {
+                sendData.code = 0;
+            } else if(data[0].password === oldPass) {
+                data[0].password = newPass;
+                data[0].save(function (err, data) {
+                    sendData.data = data;
+                })
+            }
+            res.send(sendData);
+        }
+    });
+});
 module.exports = router;

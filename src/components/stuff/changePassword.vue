@@ -5,7 +5,7 @@
     <div class="line"><span class="user_name">原始密码:</span><input class="form-control" type="password" id="inputEmail3" placeholder="请输入原始密码" v-model="oldPassword"></div>
     <div class="line"><span class="user_pass">新密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入新密码" v-model="newPassword"></div>
     <div class="line"><span class="user_pass">确认密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请确认新密码" v-model="confirmPassword"></div>
-    <button type="submit" class="btn btn-default login_btn" @click="addStuff">确认修改</button>
+    <button type="submit" class="btn btn-default login_btn" @click="changePassword">确认修改</button>
   </div>
 </div>
 </template>
@@ -16,7 +16,7 @@ import VueResource from 'vue-resource'
 import Top from '../common/top.vue'
 Vue.use(VueResource)
 export default {
-  name: 'addStuff',
+  name: 'changeStuffPassword',
   components: {
     'vue-top': Top
   },
@@ -29,8 +29,25 @@ export default {
     }
   },
   methods: {
-    addStuff () {
-      console.log(1)
+    changePassword () {
+      let params = {
+        id: '5abf4a4a7876ea52550ca268',
+        oldPass: this.oldPassword,
+        newPass: this.newPassword
+      }
+      // 获取已有账号密码
+      Vue.http.post('/api/login/changeStuffPassword', params)
+        .then((response) => {
+          // 响应成功回调
+          if (response.body.code === 0) {
+            alert('修改失败')
+          } else {
+            alert('修改成功')
+          }
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
     }
   }
 }
