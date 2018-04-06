@@ -188,4 +188,27 @@ router.post('/api/login/changeStuffPassword', (req, res) => {
         }
     });
 });
+
+// 员工修改密码
+router.post('/api/outer/outerLogin', (req, res) => {
+    // 通过模型去查找数据库
+    const wifiKey = req.body.wifiKey;
+    models.uter.find({password: wifiKey}, (err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                login: true,
+                data: data
+            }
+            console.log(data[0].password);
+            if (data.length  === 0) {
+                sendData.code = 0;
+            }
+            res.send(sendData);
+        }
+    });
+});
+
 module.exports = router;

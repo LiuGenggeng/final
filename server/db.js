@@ -8,24 +8,28 @@ mongoose.connect('mongodb://localhost/test');
 const db = mongoose.connection;
 db.once('error',() => console.log('Mongo connection error'));
 db.once('open',() => console.log('Mongo connection successed'));
+
 /************** 定义模式loginSchema **************/
 const loginSchema = mongoose.Schema({
     account : String,
     password : String
 });
+
 const stuffSchema = mongoose.Schema({
 	account: String,
 	password: String,
 	banner: Boolean,
 	onLine: Boolean
 });
+
 const outerSchema = mongoose.Schema({
 	name: String,
 	EncryptedName: String,
 	password: String,
 	stuffId: String,
 	startTime: String
-})
+});
+
 /************** 定义模型Model **************/
 const Models = {
     Login : mongoose.model('Login',loginSchema),

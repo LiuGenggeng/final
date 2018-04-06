@@ -2,7 +2,7 @@
 <div>
   <vue-top :admin="admin"></vue-top>
   <div class="apply_area">
-    <div><span>密码:</span><input name="name" type="input" class="outer_name" v-model="password" placeholder="请输入接入密码" /><button class="confirm">确定</button></div>
+    <div><span>密码:</span><input name="name" type="input" class="outer_name" v-model="password" placeholder="请输入接入密码" /><button class="confirm" @click="sendWifiKey">确定</button></div>
   </div>
 </div>
 </template>
@@ -24,6 +24,25 @@ export default {
     }
   },
   methods: {
+    sendWifiKey () {
+      let params = {
+        wifiKey: this.password
+      }
+      // 禁用或者解用公司员工的功能
+      Vue.http.post('/api/login/setStuffBanner', params)
+        .then((response) => {
+          // 响应成功回调
+          console.log(response.body)
+          if (response.body.code === 0) {
+            alert('登陆密码错误请重试')
+          } else {
+            alert('登陆成功，你现在可以使用公司wifi啦')
+          }
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
+    }
   }
 }
 </script>
