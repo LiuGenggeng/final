@@ -12,14 +12,21 @@ db.once('open',() => console.log('Mongo connection successed'));
 /************** 定义模式loginSchema **************/
 const loginSchema = mongoose.Schema({
     account : String,
-    password : String
+	password : String
 });
+
+const adminSchema = mongoose.Schema({
+	account: String,
+	password: String,
+	level: Number
+})
 
 const stuffSchema = mongoose.Schema({
 	account: String,
 	password: String,
 	banner: Boolean,
-	onLine: Boolean
+	onLine: Boolean,
+	level: Number
 });
 
 const outerSchema = mongoose.Schema({
@@ -27,11 +34,13 @@ const outerSchema = mongoose.Schema({
 	EncryptedName: String,
 	password: String,
 	stuffId: String,
-	startTime: String
+	startTime: String,
+	level: Number
 });
 
 /************** 定义模型Model **************/
 const Models = {
+	Admin : mongoose.model('Admin', adminSchema),
     Login : mongoose.model('Login',loginSchema),
     Stuff : mongoose.model('Stuff',stuffSchema),
     Outer : mongoose.model('Outer',outerSchema)

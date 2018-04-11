@@ -1,5 +1,4 @@
 // api
-// 可能是我的node版本问题，不用严格模式使用ES6语法会报错
 "use strict";
 const models = require('./db');
 const express = require('express');
@@ -10,7 +9,7 @@ const router = express.Router();
 // 创建账号接口
 router.post('/api/login/createAccount', (req, res) => {
     // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
-    let newAccount = new models.Login({
+    let newAccount = new models.Stuff({
         account : req.body.account,
         password : req.body.password
     });
@@ -24,29 +23,55 @@ router.post('/api/login/createAccount', (req, res) => {
     });
 });
 
-// 获取已有账号接口
-router.get('/api/login/getAccount', (req, res) => {
+// 登陆接口
+router.get('/api/login', (req, res) => {
     // 通过模型去查找数据库
     const account = req.query.account;
     const password = req.query.password;
     console.log(account, password);
     console.log(req.query);
-    models.Login.find({account: account, password: password}, (err, data) => {
-        if (err) {
-            res.send(err);
-        } else {
-            let sendData = {
-                code: 1,
-                login: true,
-                data: data
+    if (account === 'admin') {
+        models.Admin.find({}, (err, data) => {
+            console.log(data);
+        })
+        models.Admin.find({account: account, password: password}, (err, data) => {
+            if (err) {
+                res.send(err);
+            } else {
+                console.log(data);
+                let sendData = {
+                    code: 1,
+                    login: true,
+                    level: 0
+                }
+                if (data.length  === 0) {
+                    sendData.code = 0;
+                    sendData.login = false;
+                }
+                res.send(sendData);
             }
-            if (data.length  === 0) {
-                sendData.code = 0;
-                sendData.login = false;
+        });
+    } else {
+        models.Stuff.find({}, (err, data) => {
+            console.log(data);
+        })
+        models.Stuff.find({account: account, password: password}, (err, data) => {
+            if (err) {
+                res.send(err);
+            } else {
+                let sendData = {
+                    code: 1,
+                    login: true,
+                    level: 1
+                }
+                if (data.length  === 0) {
+                    sendData.code = 0;
+                    sendData.login = false;
+                }
+                res.send(sendData);
             }
-            res.send(sendData);
-        }
-    });
+        });
+    }
 });
 
 //管理员添加员工接口
@@ -56,7 +81,8 @@ router.post('/api/login/createStuff', (req, res) => {
         account : req.body.account,
         password : req.body.password,
         banner: false,
-        onLine: false
+        onLine: false,
+        level: 1
     });
     console.log(req.body.account)
     console.log(req.body.password)

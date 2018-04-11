@@ -33,14 +33,18 @@ export default {
         num: Math.random()
       }
       // 获取已有账号密码
-      Vue.http.get('/api/login/getAccount', {params: params}, {emulateJSON: true})
+      Vue.http.get('/api/login', {params: params}, {emulateJSON: true})
         .then((response) => {
           // 响应成功回调l
           console.log(response.body)
           if (response.body.code === 0) {
             alert('登陆失败')
           } else {
-            this.$router.push({path: '/admin'})
+            if (response.body.level === 0) {
+              this.$router.push({path: '/admin'})
+            } else if (response.body.level === 1) {
+              this.$router.push({path: '/stuff'})
+            }
           }
           // 创建一个账号密码
           // return this.$http.post('/api/login/createAccount', params)

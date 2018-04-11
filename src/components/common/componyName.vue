@@ -9,7 +9,7 @@ export default {
   name: 'componyName',
   data () {
     return {
-      componyName: '电子科技大学wifi管理系统'
+      componyName: '企业wifi管理系统'
     }
   }
 }
