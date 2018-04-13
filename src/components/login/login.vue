@@ -25,6 +25,9 @@ export default {
       password: ''
     }
   },
+  mounted: function () {
+    this.testLogin()
+  },
   methods: {
     login () {
       let params = {
@@ -41,8 +44,12 @@ export default {
             alert('登陆失败')
           } else {
             if (response.body.level === 0) {
+              sessionStorage.setItem('level', 0)
+              sessionStorage.setItem('login', true)
               this.$router.push({path: '/admin'})
             } else if (response.body.level === 1) {
+              sessionStorage.setItem('level', 1)
+              sessionStorage.setItem('login', true)
               this.$router.push({path: '/stuff'})
             }
           }
@@ -56,6 +63,17 @@ export default {
     showLogin: function (ev) {
       if (ev.keyCode === 13) {
         this.login()
+      }
+    },
+    testLogin: function () {
+      const isLogin = sessionStorage.getItem('login')
+      if (isLogin === 'true') {
+        const level = Number(sessionStorage.getItem('level'))
+        if (level === 0) {
+          this.$router.push({path: '/admin'})
+        } else if (level === 1) {
+          this.$router.push({path: '/stuff'})
+        }
       }
     }
   }
