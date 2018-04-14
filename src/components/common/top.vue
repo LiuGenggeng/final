@@ -2,7 +2,7 @@
 <div>
   <vue-logo></vue-logo>
   <compony-name></compony-name>
-  <welcome-title :admin="admin" :stuff="stuff"></welcome-title>
+  <welcome-title :admin="admin" :stuff="stuff" v-if="admin === 1 || stuff !== ''"></welcome-title>
 </div>
 </template>
 

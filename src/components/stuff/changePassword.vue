@@ -1,6 +1,6 @@
 <template>
 <div>
-  <vue-top :admin="admin"></vue-top>
+  <vue-top :stuff="stuff"></vue-top>
   <div class="function_area">
     <div class="line"><span class="user_name">原始密码:</span><input class="form-control" type="password" id="inputEmail3" placeholder="请输入原始密码" v-model="oldPassword"></div>
     <div class="line"><span class="user_pass">新密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入新密码" v-model="newPassword"></div>
@@ -22,11 +22,14 @@ export default {
   },
   data () {
     return {
-      admin: 0,
+      stuff: '',
       oldPassword: '',
       newPassword: '',
       confirmPassword: ''
     }
+  },
+  mounted: function () {
+    this.stuff = sessionStorage.getItem('stuffName')
   },
   methods: {
     changePassword () {

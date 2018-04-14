@@ -2,6 +2,7 @@
 "use strict";
 const models = require('./db');
 const express = require('express');
+const randPassword = require('./method');
 const router = express.Router();
 
 /************** 创建(create) 读取(get) 更新(update) 删除(delete) **************/
@@ -161,7 +162,7 @@ router.get('/api/login/getKey', (req, res) => {
     // 通过模型去查找数据库
     const name = req.query.name;
     const EncryptedName = String(req.query.name) + '1';
-    const password = '123456789';
+    const password = randPassword();
     const stuffId = req.query.id;
     const startTime = req.query.time;
     console.log(name, startTime);
@@ -180,7 +181,7 @@ router.get('/api/login/getKey', (req, res) => {
             let sendData = {
                 code: 1,
                 login: true,
-                password: '123456789'
+                password: password
             }
             if (data.length  === 0) {
                 sendData.code = 0;
@@ -225,7 +226,7 @@ router.post('/api/login/changeStuffPassword', (req, res) => {
 router.post('/api/outer/outerLogin', (req, res) => {
     // 通过模型去查找数据库
     const wifiKey = req.body.wifiKey;
-    models.uter.find({password: wifiKey}, (err, data) => {
+    models.Outer.find({password: wifiKey}, (err, data) => {
         if (err) {
             res.send(err);
         } else {

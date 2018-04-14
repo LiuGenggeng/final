@@ -1,6 +1,6 @@
 <template>
 <div>
-  <vue-top :admin="admin"></vue-top>
+  <vue-top :stuff="stuff"></vue-top>
   <div class="apply_area">
     <div><span>申请姓名:</span><input name="name" type="input" class="outer_name" v-model="outerName" placeholder="请输入外来人员姓名" /><button class="confirm" @click="addOuter">确定</button></div>
     <div><span>点击确认生成密码:</span><input name="password" type="input" class="password" v-model="password" placeholder="输入姓名然后点击确定" /></div>
@@ -20,10 +20,13 @@ export default {
   },
   data () {
     return {
-      admin: 0,
+      stuff: '',
       outerName: '',
       password: ''
     }
+  },
+  mounted: function () {
+    this.stuff = sessionStorage.getItem('stuffName')
   },
   methods: {
     addOuter () {

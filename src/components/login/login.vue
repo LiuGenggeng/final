@@ -1,6 +1,6 @@
 <template>
 <div>
-  <vue-top></vue-top>
+  <vue-top :admin="admin" :stuff="stuff"></vue-top>
   <div class="login_area">
     <div class="line"><span class="user_name">用户名:</span><input  typf="text" class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account"></div>
     <div class="line"><span class="user_pass">密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password" @keyup="showLogin($event)"></div>
@@ -21,6 +21,8 @@ export default {
   },
   data () {
     return {
+      admin: 0,
+      stuff: '',
       account: '',
       password: ''
     }

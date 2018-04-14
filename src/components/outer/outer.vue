@@ -29,7 +29,7 @@ export default {
         wifiKey: this.password
       }
       // 禁用或者解用公司员工的功能
-      Vue.http.post('/api/login/setStuffBanner', params)
+      Vue.http.post('/api/outer/outerLogin', params)
         .then((response) => {
           // 响应成功回调
           console.log(response.body)
