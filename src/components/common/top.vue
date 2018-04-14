@@ -1,8 +1,8 @@
 <template>
 <div>
   <vue-logo></vue-logo>
-  <compony-name v-if="admin !== 1"></compony-name>
-  <welcome-title v-if="admin === 1" :admin="admin"></welcome-title>
+  <compony-name></compony-name>
+  <welcome-title :admin="admin" :stuff="stuff"></welcome-title>
 </div>
 </template>
 
@@ -17,6 +17,6 @@ export default {
     'compony-name': componyName,
     'welcome-title': welcomeTitle
   },
-  props: ['admin']
+  props: ['admin', 'stuff']
 }
 </script>

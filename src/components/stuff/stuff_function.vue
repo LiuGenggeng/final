@@ -1,6 +1,6 @@
 <template>
 <div>
-  <vue-top :admin="admin"></vue-top>
+  <vue-top :stuff="stuff"></vue-top>
   <div class="function_area">
     <div><router-link :to="{name:'applyPassword'}">申请wifi登陆密码</router-link></div>
     <div><router-link :to="{name:'changePassword'}">修改密码</router-link></div>
@@ -20,13 +20,11 @@ export default {
   },
   data () {
     return {
-      admin: 0
+      stuff: ''
     }
   },
-  methods: {
-    addStuff () {
-      console.log(1)
-    }
+  mounted: function () {
+    this.stuff = sessionStorage.getItem('stuffName')
   }
 }
 </script>

@@ -42,11 +42,14 @@ router.get('/api/login', (req, res) => {
                 let sendData = {
                     code: 1,
                     login: true,
-                    level: 0
+                    level: 0,
+                    name: ''
                 }
                 if (data.length  === 0) {
                     sendData.code = 0;
                     sendData.login = false;
+                } else {
+                    sendData.name = data[0].account;
                 }
                 res.send(sendData);
             }
@@ -62,11 +65,14 @@ router.get('/api/login', (req, res) => {
                 let sendData = {
                     code: 1,
                     login: true,
-                    level: 1
+                    level: 1,
+                    name: ''
                 }
                 if (data.length  === 0) {
                     sendData.code = 0;
                     sendData.login = false;
+                } else {
+                    sendData.name = data[0].account;
                 }
                 res.send(sendData);
             }

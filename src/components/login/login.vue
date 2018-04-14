@@ -50,6 +50,7 @@ export default {
             } else if (response.body.level === 1) {
               sessionStorage.setItem('level', 1)
               sessionStorage.setItem('login', true)
+              sessionStorage.setItem('stuffName', response.body.name)
               this.$router.push({path: '/stuff'})
             }
           }
