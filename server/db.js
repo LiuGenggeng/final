@@ -26,7 +26,8 @@ const stuffSchema = mongoose.Schema({
 	password: String,
 	banner: Boolean,
 	onLine: Boolean,
-	level: Number
+	level: Number,
+	startTime: Number
 });
 
 const outerSchema = mongoose.Schema({
@@ -34,7 +35,8 @@ const outerSchema = mongoose.Schema({
 	EncryptedName: String,
 	password: String,
 	stuffId: String,
-	startTime: String,
+	stuffName: String,
+	startTime: Number,
 	level: Number
 });
 

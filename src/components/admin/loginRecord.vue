@@ -47,40 +47,100 @@ export default {
       insert: 'current',
       outer: '',
       tableData: [
-        {'name': '赵伟', 'tel': '156*****1987', 'hobby': '钢琴、书法、唱歌', 'address': '上海市黄浦区金陵东路569号17楼'},
-        {'name': '李伟', 'tel': '182*****1538', 'hobby': '钢琴、书法、唱歌', 'address': '上海市奉贤区南桥镇立新路12号2楼'},
-        {'name': '孙伟', 'tel': '161*****0097', 'hobby': '钢琴、书法、唱歌', 'address': '上海市崇明县城桥镇八一路739号'},
-        {'name': '周伟', 'tel': '197*****1123', 'hobby': '钢琴、书法、唱歌', 'address': '上海市青浦区青浦镇章浜路24号'},
-        {'name': '吴伟', 'tel': '183*****6678', 'hobby': '钢琴、书法、唱歌', 'address': '上海市松江区乐都西路867-871号'}
+        {'account': '', 'startTime': '', 'overTime': ''}
       ],
       outerData: [
-        {'name': '赵伟', 'tel': '156*****1987', 'hobby': '钢琴、书法、唱歌', 'stuffName': '赵伟'},
-        {'name': '李伟', 'tel': '182*****1538', 'hobby': '钢琴、书法、唱歌', 'stuffName': '赵伟'},
-        {'name': '孙伟', 'tel': '161*****0097', 'hobby': '钢琴、书法、唱歌', 'stuffName': '赵伟'},
-        {'name': '周伟', 'tel': '197*****1123', 'hobby': '钢琴、书法、唱歌', 'stuffName': '赵伟'},
-        {'name': '吴伟', 'tel': '183*****6678', 'hobby': '钢琴、书法、唱歌', 'stuffName': '赵伟'}
+        {'name': '', 'startTime': '', 'overTime': '', 'stuffName': ''}
       ],
       columns: [
-        {field: 'name', title: '姓名', width: 100, titleAlign: 'center', columnAlign: 'center'},
-        {field: 'tel', title: '开始时间', width: 160, titleAlign: 'center', columnAlign: 'center'},
-        {field: 'hobby', title: '已经连接时间', width: 330, titleAlign: 'center', columnAlign: 'center'}
+        {field: 'account', title: '姓名', width: 100, titleAlign: 'center', columnAlign: 'center'},
+        {field: 'startTime', title: '开始时间', width: 160, titleAlign: 'center', columnAlign: 'center'},
+        {field: 'overTime', title: '已经连接时间', width: 330, titleAlign: 'center', columnAlign: 'center'}
       ],
       outerColumns: [
         {field: 'name', title: '姓名', width: 100, titleAlign: 'center', columnAlign: 'center'},
-        {field: 'tel', title: '开始时间', width: 160, titleAlign: 'center', columnAlign: 'center'},
-        {field: 'hobby', title: '已经连接时间', width: 330, titleAlign: 'center', columnAlign: 'center'},
+        {field: 'startTime', title: '开始时间', width: 160, titleAlign: 'center', columnAlign: 'center'},
+        {field: 'overTime', title: '已经连接时间', width: 330, titleAlign: 'center', columnAlign: 'center'},
         {field: 'stuffName', title: '申请员工', width: 160, titleAlign: 'center', columnAlign: 'center'}
       ]
     }
+  },
+  mounted: function () {
+    this.getStuffLogin()
   },
   methods: {
     showInsert () {
       this.insert = 'current'
       this.outer = ''
+      this.getStuffLogin()
     },
     showOuter () {
       this.insert = ''
       this.outer = 'current'
+      this.getOuterLogin()
+    },
+    getStuffLogin () {
+      // 获取内部员工登陆信息
+      Vue.http.get('/api/getStuffLogin')
+        .then((response) => {
+          // 响应成功回调
+          console.log(response.body)
+          if (response.body.code === 0) {
+            alert('获取失败')
+          } else {
+            if (response.body.data.length === 0) {
+              console.log('员工登陆为0')
+            } else if (response.body.data.length > 0) {
+              const res = response.body.data
+              console.log(res)
+              const curTime = new Date()
+              res.forEach(element => {
+                const startTime = new Date(element.startTime)
+                const overTime = new Date(curTime - element.startTime)
+                element.startTime = startTime.getFullYear() + '-' + startTime.getMonth() + '-' + startTime.getDate() + ' ' + startTime.getHours() + ':' + startTime.getMinutes() + ':' + startTime.getSeconds()
+                element.overTime = overTime.getHours() + '时' + overTime.getMinutes() + '分' + overTime.getSeconds() + '秒'
+              })
+              this.tableData = res
+              console.log(res)
+            }
+          }
+          // 创建一个账号密码
+          // return this.$http.post('/api/login/createAccount', params)
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
+    },
+    getOuterLogin () {
+      Vue.http.get('/api/getOuterLogin')
+        .then((response) => {
+          // 响应成功回调
+          console.log(response.body)
+          if (response.body.code === 0) {
+            alert('获取失败')
+          } else {
+            if (response.body.data.length === 0) {
+              console.log('员工登陆为0')
+            } else if (response.body.data.length > 0) {
+              const res = response.body.data
+              console.log(res)
+              const curTime = new Date()
+              res.forEach(element => {
+                const startTime = new Date(element.startTime)
+                const overTime = new Date(curTime - element.startTime)
+                element.startTime = startTime.getFullYear() + '-' + startTime.getMonth() + '-' + startTime.getDate() + ' ' + startTime.getHours() + ':' + startTime.getMinutes() + ':' + startTime.getSeconds()
+                element.overTime = overTime.getHours() + '时' + overTime.getMinutes() + '分' + overTime.getSeconds() + '秒'
+              })
+              this.outerData = res
+              console.log(res)
+            }
+          }
+          // 创建一个账号密码
+          // return this.$http.post('/api/login/createAccount', params)
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
     }
   }
 }

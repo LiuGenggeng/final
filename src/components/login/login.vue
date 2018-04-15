@@ -35,7 +35,8 @@ export default {
       let params = {
         account: this.account,
         password: this.password,
-        num: Math.random()
+        num: Math.random(),
+        currentTime: (new Date()).getTime()
       }
       // 获取已有账号密码
       Vue.http.get('/api/login', {params: params}, {emulateJSON: true})
@@ -53,6 +54,7 @@ export default {
               sessionStorage.setItem('level', 1)
               sessionStorage.setItem('login', true)
               sessionStorage.setItem('stuffName', response.body.name)
+              sessionStorage.setItem('stuffId', response.body.id)
               this.$router.push({path: '/stuff'})
             }
           }

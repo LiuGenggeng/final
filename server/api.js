@@ -2,11 +2,14 @@
 "use strict";
 const models = require('./db');
 const express = require('express');
-const randPassword = require('./method');
+const randPass = require('./method');
 const router = express.Router();
 
 /************** 创建(create) 读取(get) 更新(update) 删除(delete) **************/
-
+// models.Outer.remove().exec();
+models.Outer.find({}, (err, data) => {
+    console.log(data);
+})
 // 创建账号接口
 router.post('/api/login/createAccount', (req, res) => {
     // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
@@ -29,6 +32,7 @@ router.get('/api/login', (req, res) => {
     // 通过模型去查找数据库
     const account = req.query.account;
     const password = req.query.password;
+    const startTime = req.query.currentTime;
     console.log(account, password);
     console.log(req.query);
     if (account === 'admin') {
@@ -56,9 +60,6 @@ router.get('/api/login', (req, res) => {
             }
         });
     } else {
-        models.Stuff.find({}, (err, data) => {
-            console.log(data);
-        })
         models.Stuff.find({account: account, password: password}, (err, data) => {
             if (err) {
                 res.send(err);
@@ -67,18 +68,42 @@ router.get('/api/login', (req, res) => {
                     code: 1,
                     login: true,
                     level: 1,
-                    name: ''
+                    name: '',
+                    id: ''
                 }
                 if (data.length  === 0) {
                     sendData.code = 0;
                     sendData.login = false;
                 } else {
+                    data[0].onLine = true;
+                    data[0].startTime = startTime;
+                    data[0].save();
                     sendData.name = data[0].account;
+                    sendData.id = data[0]._id;
                 }
                 res.send(sendData);
             }
         });
     }
+});
+
+//注销登陆接口
+router.post('/api/login/logout', (req, res) => {
+    const stuffId = req.body.id;
+    console.log(stuffId);
+    models.Stuff.find({_id: stuffId}, (err, data) => {
+        if(err) {
+            res.send(err);
+        } else {
+            console.log(data);
+            data[0].onLine = false;
+            data[0].save();
+            const sendData = {
+                code: 1
+            }
+            res.send(sendData);
+        }
+    })
 });
 
 //管理员添加员工接口
@@ -89,7 +114,8 @@ router.post('/api/login/createStuff', (req, res) => {
         password : req.body.password,
         banner: false,
         onLine: false,
-        level: 1
+        level: 1,
+        startTime: 0
     });
     console.log(req.body.account)
     console.log(req.body.password)
@@ -162,8 +188,9 @@ router.get('/api/login/getKey', (req, res) => {
     // 通过模型去查找数据库
     const name = req.query.name;
     const EncryptedName = String(req.query.name) + '1';
-    const password = randPassword();
-    const stuffId = req.query.id;
+    const password = randPass();
+    const stuffId = req.query.stuffId;
+    const stuffName = req.query.stuffName;
     const startTime = req.query.time;
     console.log(name, startTime);
     let outerKey = new models.Outer({
@@ -171,7 +198,9 @@ router.get('/api/login/getKey', (req, res) => {
         EncryptedName : EncryptedName,
         password : password,
         stuffId : stuffId,
-        startTime : startTime
+        startTime : startTime,
+        stuffName : stuffName,
+        level: 2
     });
 
     outerKey.save((err,data) => {
@@ -222,7 +251,7 @@ router.post('/api/login/changeStuffPassword', (req, res) => {
     });
 });
 
-// 员工修改密码
+// 外来员工登陆
 router.post('/api/outer/outerLogin', (req, res) => {
     // 通过模型去查找数据库
     const wifiKey = req.body.wifiKey;
@@ -238,6 +267,46 @@ router.post('/api/outer/outerLogin', (req, res) => {
             console.log(data[0].password);
             if (data.length  === 0) {
                 sendData.code = 0;
+            }
+            res.send(sendData);
+        }
+    });
+});
+
+// 获取已经登陆的员工
+router.get('/api/getStuffLogin', (req, res) => {
+    // 通过模型去查找数据库
+    models.Stuff.find({onLine: true}, (err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                data: data
+            }
+            if (data.length  === 0) {
+                sendData.code = 0;
+                sendData.data = [];
+            }
+            res.send(sendData);
+        }
+    });
+});
+
+// 获取已经得到密码的外来人员
+router.get('/api/getOuterLogin', (req, res) => {
+    // 通过模型去查找数据库
+    models.Outer.find({}, (err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                data: data
+            }
+            if (data.length  === 0) {
+                sendData.code = 0;
+                sendData.data = [];
             }
             res.send(sendData);
         }

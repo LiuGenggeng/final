@@ -30,9 +30,12 @@ export default {
   },
   methods: {
     addOuter () {
+      const stuffId = sessionStorage.getItem('stuffId')
+      const stuffName = sessionStorage.getItem('stuffName')
       let params = {
         name: this.outerName,
-        id: '5abf4969e4753852231f083a',
+        stuffId: stuffId,
+        stuffName: stuffName,
         time: (new Date()).getTime(),
         num: Math.random()
       }
