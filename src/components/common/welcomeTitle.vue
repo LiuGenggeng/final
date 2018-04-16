@@ -1,7 +1,7 @@
 <template>
 <div>
-  <div>欢迎你, <span v-if="admin === 1">管理员</span><span v-if="stuff !== ''">{{stuff}}</span></div>
-  <div><a href="javascript:void(0)" @click="logout">注销</a></div>
+  <div>欢迎你, <span v-if="admin === 1">管理员</span><span v-if="stuff !== ''">{{stuff}}</span><span v-if="outer === 1">请输入您的登陆密码</span></div>
+  <div><a href="javascript:void(0)" @click="logout" v-if="admin === 1 || stuff !== ''">注销</a></div>
 </div>
 </template>
 
@@ -11,7 +11,7 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 export default {
   name: 'welcomeTitle',
-  props: ['admin', 'stuff'],
+  props: ['admin', 'stuff', 'outer'],
   methods: {
     logout () {
       sessionStorage.setItem('login', false)

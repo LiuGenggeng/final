@@ -1,6 +1,6 @@
 <template>
 <div>
-  <vue-top :admin="admin"></vue-top>
+  <vue-top :outer="outer"></vue-top>
   <div class="apply_area">
     <div><span>密码:</span><input name="name" type="input" class="outer_name" v-model="password" placeholder="请输入接入密码" /><button class="confirm" @click="sendWifiKey">确定</button></div>
   </div>
@@ -19,7 +19,7 @@ export default {
   },
   data () {
     return {
-      admin: 0,
+      outer: 1,
       password: ''
     }
   },
