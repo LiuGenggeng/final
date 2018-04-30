@@ -55,6 +55,7 @@ export default {
               sessionStorage.setItem('login', true)
               sessionStorage.setItem('stuffName', response.body.name)
               sessionStorage.setItem('stuffId', response.body.id)
+              sessionStorage.setItem('banner', response.body.banner)
               this.$router.push({path: '/stuff'})
             }
           }

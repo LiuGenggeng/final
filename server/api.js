@@ -69,7 +69,8 @@ router.get('/api/login', (req, res) => {
                     login: true,
                     level: 1,
                     name: '',
-                    id: ''
+                    id: '',
+                    banner: false
                 }
                 if (data.length  === 0) {
                     sendData.code = 0;
@@ -80,6 +81,7 @@ router.get('/api/login', (req, res) => {
                     data[0].save();
                     sendData.name = data[0].account;
                     sendData.id = data[0]._id;
+                    sendData.banner = data[0].banner;
                 }
                 res.send(sendData);
             }
