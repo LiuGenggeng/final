@@ -3,6 +3,7 @@
 const models = require('./db');
 const express = require('express');
 const randPass = require('./method');
+const utils = require('utility');
 const router = express.Router();
 
 /************** 创建(create) 读取(get) 更新(update) 删除(delete) **************/
@@ -30,8 +31,8 @@ router.post('/api/login/createAccount', (req, res) => {
 // 登陆接口
 router.get('/api/login', (req, res) => {
     // 通过模型去查找数据库
-    const account = req.query.account;
-    const password = req.query.password;
+    const account = utils.base64decode(req.query.account);
+    const password = utils.base64decode(req.query.password);
     const startTime = req.query.currentTime;
     console.log(account, password);
     console.log(req.query);

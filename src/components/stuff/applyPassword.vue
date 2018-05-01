@@ -1,11 +1,11 @@
 <template>
 <div>
   <vue-top :stuff="stuff"></vue-top>
-  <div class="apply_area" v-if="banner === false">
+  <div class="apply_area" v-if="banner === 'false'">
     <div><span>申请姓名:</span><input name="name" type="input" class="outer_name" v-model="outerName" placeholder="请输入外来人员姓名" /><button class="confirm" @click="addOuter">确定</button></div>
     <div><span>点击确认生成密码:</span><input name="password" type="input" class="password" v-model="password" placeholder="输入姓名然后点击确定" /></div>
   </div>
-  <div class="prompting" v-if="banner === true">
+  <div class="prompting" v-if="banner === 'true'">
     对不起，您的权限已经被禁用，请联系管理员恢复权限!
   </div>
 </div>
@@ -26,12 +26,12 @@ export default {
       stuff: '',
       outerName: '',
       password: '',
-      banner: false
+      banner: 'false'
     }
   },
   mounted: function () {
     this.stuff = sessionStorage.getItem('stuffName')
-    this.banner = Boolean(sessionStorage.getItem('banner'))
+    this.banner = sessionStorage.getItem('banner')
   },
   methods: {
     addOuter () {

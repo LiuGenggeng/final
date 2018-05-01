@@ -13,6 +13,7 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import Top from '../common/top.vue'
+import utils from 'utility'
 Vue.use(VueResource)
 export default {
   name: 'login',
@@ -33,8 +34,8 @@ export default {
   methods: {
     login () {
       let params = {
-        account: this.account,
-        password: this.password,
+        account: utils.base64encode(this.account, true),
+        password: utils.base64encode(this.password, true),
         num: Math.random(),
         currentTime: (new Date()).getTime()
       }
