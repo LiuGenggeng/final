@@ -3,39 +3,20 @@
 const models = require('./db');
 const express = require('express');
 const randPass = require('./method');
+const leadCloud = require('./sendMsg');
 const utils = require('utility');
 const router = express.Router();
 
-/************** 创建(create) 读取(get) 更新(update) 删除(delete) **************/
-// models.Outer.remove().exec();
-models.Outer.find({}, (err, data) => {
-    console.log(data);
-})
-// 创建账号接口
-router.post('/api/login/createAccount', (req, res) => {
-    // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
-    let newAccount = new models.Stuff({
-        account : req.body.account,
-        password : req.body.password
-    });
-    // 保存数据newAccount数据进mongoDB
-    newAccount.save((err,data) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send('createAccount successed');
-        }
-    });
-});
-
 // 登陆接口
 router.get('/api/login', (req, res) => {
-    // 通过模型去查找数据库
+    const Ip = req.headers['x-forwarded-for'] || 
+    req.connection.remoteAddress || 
+    req.socket.remoteAddress ||
+    (req.connection.socket ? req.connection.socket.remoteAddress : null);
+
     const account = utils.base64decode(req.query.account);
     const password = utils.base64decode(req.query.password);
     const startTime = req.query.currentTime;
-    console.log(account, password);
-    console.log(req.query);
     if (account === 'admin') {
         models.Admin.find({}, (err, data) => {
             console.log(data);
@@ -77,12 +58,18 @@ router.get('/api/login', (req, res) => {
                     sendData.code = 0;
                     sendData.login = false;
                 } else {
-                    data[0].onLine = true;
-                    data[0].startTime = startTime;
-                    data[0].save();
-                    sendData.name = data[0].account;
-                    sendData.id = data[0]._id;
-                    sendData.banner = data[0].banner;
+                    if(data[0].Ips.valueOf(Ip) === -1) {
+                        const tel = data[0].tel;
+                        leadCloud.sendMsg(tel);
+                        sendData.code = 2;
+                    } else {
+                        data[0].onLine = true;
+                        data[0].startTime = startTime;
+                        data[0].save();
+                        sendData.name = data[0].account;
+                        sendData.id = data[0]._id;
+                        sendData.banner = data[0].banner;
+                    }   
                 }
                 res.send(sendData);
             }
@@ -115,13 +102,13 @@ router.post('/api/login/createStuff', (req, res) => {
     let newStuffAccount = new models.Stuff({
         account : req.body.account,
         password : req.body.password,
+        tel: req.body.tel,
         banner: false,
         onLine: false,
         level: 1,
-        startTime: 0
+        startTime: 0,
+        Ips: []
     });
-    console.log(req.body.account)
-    console.log(req.body.password)
     // 保存数据newAccount数据进mongoDB
     newStuffAccount.save((err,data) => {
         if (err) {
@@ -168,7 +155,6 @@ router.post('/api/login/setStuffBanner', (req, res) => {
     // 通过模型去查找数据库
     const id = req.body.id;
     const newBanner = req.body.banner;
-    console.log(id, newBanner);
     models.Stuff.update({_id: id}, {banner: newBanner}, (err, data) => {
         if (err) {
             res.send(err);

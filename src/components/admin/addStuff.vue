@@ -3,8 +3,9 @@
   <vue-top :admin="admin"></vue-top>
   <div class="function_area">
     <div class="add_title">添加员工</div>
-    <div class="line"><span class="user_name">用户名:</span><input class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account"></div>
+    <div class="line"><span class="user_name">用户名:</span><input type="text" class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account"></div>
     <div class="line"><span class="user_pass">密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password"></div>
+    <div class="line"><span class="user_tel">电话:</span><input type="text" v-model="tel"></div>
     <button type="submit" class="btn btn-default login_btn" @click="addStuff">确认添加</button>
   </div>
 </div>
@@ -24,7 +25,8 @@ export default {
     return {
       admin: 1,
       account: '',
-      password: ''
+      password: '',
+      tel: ''
     }
   },
   methods: {
@@ -83,7 +85,7 @@ export default {
     text-align: center;
     color: #ffffff;
   }
-  .user_name, .user_pass {
+  .user_name, .user_pass, .user_tel {
     display: inline-block;
     width: 100px;
   }

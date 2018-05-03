@@ -20,10 +20,12 @@ const adminSchema = mongoose.Schema({
 const stuffSchema = mongoose.Schema({
 	account: String,
 	password: String,
+	tel: String,
 	banner: Boolean,
 	onLine: Boolean,
 	level: Number,
-	startTime: Number
+	startTime: Number,
+	Ips: Array
 });
 
 const outerSchema = mongoose.Schema({
