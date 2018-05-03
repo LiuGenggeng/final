@@ -4,7 +4,8 @@
   <div class="login_area">
     <div class="line"><span class="user_name">用户名:</span><input  typf="text" class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account"></div>
     <div class="line"><span class="user_pass">密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password" @keyup="showLogin($event)"></div>
-    <button type="submit" class="btn btn-default login_btn" @click="login">登录</button>
+    <div class="line" v-if="showMsg"><span class="user_msg">验证码:</span><input type="text" v-model="msg"></div>
+    <button type="submit" class="btn btn-default login_btn" @click="checkIp">登录</button>
   </div>
 </div>
 </template>
@@ -25,13 +26,63 @@ export default {
       admin: 0,
       stuff: '',
       account: '',
-      password: ''
+      password: '',
+      msg: '',
+      showMsg: false,
+      tel: ''
     }
   },
   mounted: function () {
     this.testLogin()
   },
   methods: {
+    checkIp () {
+      if (this.account === 'admin') {
+        this.login()
+        return
+      }
+      let params = {
+        account: utils.base64encode(this.account, true),
+        password: utils.base64encode(this.password, true),
+        num: Math.random()
+      }
+      if (this.showMsg === false) {
+        Vue.http.get('/api/login/checkIp', {params: params}, {emulateJSON: true})
+          .then((response) => {
+            if (response.body.code === 1) {
+              this.login()
+            } else if (response.body.code === 2) {
+              this.showMsg = true
+              this.tel = response.body.tel
+            }
+          })
+          .catch((reject) => {
+            console.log(reject)
+          })
+      } else {
+        this.checkMsg()
+      }
+    },
+    checkMsg () {
+      let params = {
+        msg: this.msg,
+        tel: this.tel,
+        account: utils.base64encode(this.account, true),
+        password: utils.base64encode(this.password, true),
+        num: Math.random()
+      }
+      Vue.http.get('/api/login/msgCheck', {params: params}, {emulateJSON: true})
+        .then((response) => {
+          if (response.body.code === 1) {
+            this.login()
+          } else if (response.body.code === 2) {
+            alert('验证码错误!')
+          }
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
+    },
     login () {
       let params = {
         account: utils.base64encode(this.account, true),
@@ -42,7 +93,7 @@ export default {
       // 获取已有账号密码
       Vue.http.get('/api/login', {params: params}, {emulateJSON: true})
         .then((response) => {
-          // 响应成功回调l
+          // 响应成功回调
           console.log(response.body)
           if (response.body.code === 0) {
             alert('登陆失败')
@@ -69,7 +120,7 @@ export default {
     },
     showLogin: function (ev) {
       if (ev.keyCode === 13) {
-        this.login()
+        this.checkIp()
       }
     },
     testLogin: function () {
@@ -105,7 +156,7 @@ export default {
   display: block;
   margin: 10px auto;
 }
-.user_name, .user_pass {
+.user_name, .user_pass, .user_msg {
   display: inline-block;
   width: 100px;
 }

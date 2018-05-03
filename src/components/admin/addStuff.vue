@@ -34,6 +34,7 @@ export default {
       let params = {
         account: this.account,
         password: this.password,
+        tel: this.tel,
         num: Math.random()
       }
       // 获取已有账号密码
