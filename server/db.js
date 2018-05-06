@@ -38,11 +38,32 @@ const outerSchema = mongoose.Schema({
 	level: Number
 });
 
+const roleSchema = mongoose.Schema({
+	name: String
+})
+
+const userRoleSchema = mongoose.Schema({
+	userId: String,
+	roleId: String
+})
+
+const accessSchema = mongoose.Schema({
+	url: String
+})
+
+const roleAccessSchema = mongoose.Schema({
+	roleId: String,
+	AccessId: Array
+})
 /************** 定义模型Model **************/
 const Models = {
 	Admin : mongoose.model('Admin', adminSchema),
-    Stuff : mongoose.model('Stuff',stuffSchema),
-    Outer : mongoose.model('Outer',outerSchema)
+    Stuff : mongoose.model('Stuff', stuffSchema),
+	Outer : mongoose.model('Outer', outerSchema),
+	Role : mongoose.model('Role', roleSchema),
+	UserRole : mongoose.model('UserRole', userRoleSchema),
+	Access : mongoose.model('Access', accessSchema),
+	RoleAccess : mongoose.model('RoleAccess', roleAccessSchema)
 }
 
 module.exports = Models;

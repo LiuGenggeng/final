@@ -18,6 +18,7 @@
     "leancloud-storage": "^3.6.8",
     "mongoose": "^5.0.9",
     "node-sass": "^4.7.2",
+    "rbac": "^4.0.2",
     "sass-loader": "^6.0.7",
     "utility": "^1.13.1",
     "vue": "^2.5.2",
