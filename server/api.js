@@ -171,7 +171,7 @@ router.post('/api/login/createStuff', (req, res) => {
         Ips: []
     });
     // 保存数据newAccount数据进mongoDB
-    newStuffAccount.save((err,data) => {
+    newStuffAccount.save((err, data) => {
         if (err) {
             res.send(err);
         } else {
@@ -429,6 +429,29 @@ router.get('/api/fixRoleName', (req, res) => {
             res.send(sendData);
         } else {
             sendData.code = 1;
+            res.send(sendData);
+        }
+    });
+});
+
+// 添加员工角色联系
+router.post('/api/addUserRole', (req, res) => {
+    let newUserRole = new models.UserRole({
+        userId : req.body.userId,
+        roleId : req.body.roleId
+    });
+    // 保存数据newUserRole数据进mongoDB
+    newUserRole.save((err,data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                data: data
+            }
+            if (data.length  === 0) {
+                sendData.code = 0;
+            }
             res.send(sendData);
         }
     });

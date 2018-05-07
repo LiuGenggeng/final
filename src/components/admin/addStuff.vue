@@ -6,6 +6,14 @@
     <div class="line"><span class="user_name">用户名:</span><input type="text" class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account"></div>
     <div class="line"><span class="user_pass">密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" v-model="password"></div>
     <div class="line"><span class="user_tel">电话:</span><input type="text" v-model="tel"></div>
+    <el-row>
+      <el-col :span="24">
+        <template>
+          所属角色:
+          <el-radio v-for="(item, index) in roleList" :key="item._id" v-model="radio" :label="index" @change="changeRoleId(item._id)">{{item.name}}</el-radio>
+        </template>
+      </el-col>
+    </el-row>
     <button type="submit" class="btn btn-default login_btn" @click="addStuff">确认添加</button>
   </div>
 </div>
@@ -26,8 +34,14 @@ export default {
       admin: 1,
       account: '',
       password: '',
-      tel: ''
+      tel: '',
+      roleList: [],
+      radio: -1,
+      finalRoleId: ''
     }
+  },
+  mounted () {
+    this.getRoleList()
   },
   methods: {
     addStuff () {
@@ -41,6 +55,44 @@ export default {
       Vue.http.post('/api/login/createStuff', params)
         .then((response) => {
           // 响应成功回调l
+          console.log(response.body)
+          if (response.body.code === 0) {
+            alert('创建失败')
+          } else {
+            this.addUserRole(response.body.data._id, this.finalRoleId)
+          }
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
+    },
+    getRoleList () {
+      Vue.http.get('/api/getRoleList')
+        .then((response) => {
+          // 响应成功回调
+          if (response.body.code === 0) {
+            console.log('无角色')
+          } else if (response.body.code === 1) {
+            this.roleList = response.body.data
+          }
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
+    },
+    changeRoleId (id) {
+      console.log(id)
+      this.finalRoleId = id
+    },
+    addUserRole (userId, roleId) {
+      let params = {
+        userId: userId,
+        roleId: roleId
+      }
+      // 把员工和角色的联系发送到数据库
+      Vue.http.post('/api/addUserRole', params)
+        .then((response) => {
+          // 响应成功回调
           console.log(response.body)
           if (response.body.code === 0) {
             alert('创建失败')

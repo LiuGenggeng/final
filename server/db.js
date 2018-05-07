@@ -58,7 +58,7 @@ const roleAccessSchema = mongoose.Schema({
 /************** 定义模型Model **************/
 const Models = {
 	Admin : mongoose.model('Admin', adminSchema),
-    Stuff : mongoose.model('Stuff', stuffSchema),
+  Stuff : mongoose.model('Stuff', stuffSchema),
 	Outer : mongoose.model('Outer', outerSchema),
 	Role : mongoose.model('Role', roleSchema),
 	UserRole : mongoose.model('UserRole', userRoleSchema),
