@@ -2,7 +2,6 @@
 <div>
   <vue-top :admin="admin"></vue-top>
   <div class="role_area">
-    
   </div>
 </div>
 </template>
@@ -23,7 +22,6 @@ export default {
     }
   },
   methods: {
-    
   }
 }
 </script>

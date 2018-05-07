@@ -1,9 +1,16 @@
 <template>
 <div>
   <vue-top :admin="admin"></vue-top>
-  <div class="role_area">
-    角色: <input type="text" v-model="roleName" name="roleName" class="roleName"/>
-  </div>
+  <el-row>
+      <el-col :span="24">
+          角色: <el-input v-model="roleName" placeholder="请输入角色名称" class="roleName"></el-input>
+      </el-col>
+  </el-row>
+  <el-row>
+      <el-col :span="13">
+          <el-button type="primary" size="small" class="addBtn" @click="addRole">确定</el-button>
+      </el-col>
+  </el-row>
 </div>
 </template>
 
@@ -19,18 +26,39 @@ export default {
   },
   data () {
     return {
-      admin: 1
+      admin: 1,
+      roleName: ''
     }
   },
   methods: {
-    
+    addRole () {
+      let params = {
+        roleName: this.roleName
+      }
+      Vue.http.post('/api/addRole', params)
+        .then((response) => {
+          // 响应成功回调
+          if (response.body.code === 0) {
+            alert('添加失败')
+          } else if (response.body.code === 1) {
+            alert('添加成功')
+            this.$router.push({path: '/roleManage'})
+          }
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
+    }
   }
 }
 </script>
 <style scoped lang='scss'>
-.role_area {
-  width: 800px;
-  margin: 0 auto;
-  text-align: left;
+.roleName {
+    width: 200px;
+    margin-left: 20px;
+}
+.addBtn {
+    margin-top: 1rem;
+    float: right;
 }
 </style>

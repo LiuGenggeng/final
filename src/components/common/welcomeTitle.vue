@@ -1,7 +1,7 @@
 <template>
 <div>
   <div>欢迎你, <span v-if="admin === 1">管理员</span><span v-if="stuff !== ''">{{stuff}}</span><span v-if="outer === 1">请输入您的登陆密码</span></div>
-  <div><a href="javascript:void(0)" @click="logout" v-if="admin === 1 || stuff !== ''">注销</a></div>
+  <div><a href="javascript:void(0)" @click="logout" v-if="admin === 1 || stuff !== ''" class="logout">注销</a></div>
 </div>
 </template>
 
@@ -46,3 +46,9 @@ export default {
   }
 }
 </script>
+<style scoped lang='scss'>
+.logout {
+  text-decoration: none;
+  color: #409EFF
+}
+</style>

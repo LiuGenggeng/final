@@ -13,7 +13,6 @@ import accessManage from '../components/admin/accessManage'
 import outer from '../components/outer/outer'
 import addRole from '../components/admin/addRole'
 import addAccess from '../components/admin/addAccess'
-import { access } from 'fs';
 Vue.use(Router)
 
 export default new Router({

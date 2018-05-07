@@ -4,7 +4,7 @@
   <div class="function_area">
     <div><router-link :to="{name:'addStuff'}">添加公司人员</router-link></div>
     <div><router-link :to="{name:'stuffManage'}">员工管理</router-link></div>
-    <div><router-link :to="{name:'rolefManage'}">角色管理</router-link></div>
+    <div><router-link :to="{name:'roleManage'}">角色管理</router-link></div>
     <div><router-link :to="{name:'accessManage'}">权限管理</router-link></div>
     <div><router-link :to="{name:'loginRecord'}">申请wifi登陆密码记录</router-link></div>
   </div>

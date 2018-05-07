@@ -359,4 +359,78 @@ router.get('/api/getOuterLogin', (req, res) => {
     });
 });
 
+
+// rbac的接口
+// 添加角色接口
+router.post('/api/addRole', (req, res) => {
+    // 添加角色
+    const roleName = req.body.roleName;
+    let newRole = new models.Role({
+        name: roleName
+    });
+    // 保存数据newAccount数据进mongoDB
+    newRole.save((err,data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1
+            }
+            res.send(sendData);
+        }
+    });
+});
+// 获取所有角色
+router.get('/api/getRoleList', (req, res) => {
+    // 通过模型去查找数据库
+    models.Role.find({}, (err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                data: data
+            }
+            if (data.length  === 0) {
+                sendData.code = 0;
+                sendData.data = [];
+            }
+            res.send(sendData);
+        }
+    });
+});
+
+// 删除角色
+router.get('/api/deleteRole', (req, res) => {
+    const roleId = req.query.id;
+    models.Role.remove({_id: roleId}, (err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1
+            }
+            res.send(sendData);
+        }
+    })
+});
+
+//  修改角色名称
+router.get('/api/fixRoleName', (req, res) => {
+    const roleId = req.query.id;
+    const newName = req.query.name
+    // 通过角色id去查找数据库
+    let sendData = {
+        code: 1
+    }
+    models.Role.update({_id: roleId}, {name: newName}, (err, data) => {
+        if (err) {
+            sendData.code = 0;
+            res.send(sendData);
+        } else {
+            sendData.code = 1;
+            res.send(sendData);
+        }
+    });
+});
 module.exports = router;
