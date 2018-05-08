@@ -12,6 +12,10 @@ const appKey = '2vg4fgRcPjR9s54TgtKu2yGr';
 AV.init({ appId, appKey })
 
 // models.Stuff.remove({}).exec();
+// models.Role.remove({}).exec();
+// models.UserRole.remove({}).exec();
+// models.Access.remove({}).exec();
+// models.RoleAccess.remove({}).exec();
 
 // 登陆接口
 router.get('/api/login', (req, res) => {
@@ -437,12 +441,7 @@ router.get('/api/fixRoleName', (req, res) => {
 
 // 添加员工角色联系
 router.post('/api/addUserRole', (req, res) => {
-    let newUserRole = new models.UserRole({
-        userId : req.body.userId,
-        roleId : req.body.roleId
-    });
-    // 保存数据newUserRole数据进mongoDB
-    newUserRole.save((err,data) => {
+    models.UserRole.update({userId : req.body.userId}, {roleId : req.body.roleId}, {upsert: true}, (err, data) => {
         if (err) {
             res.send(err);
         } else {
@@ -455,7 +454,7 @@ router.post('/api/addUserRole', (req, res) => {
             }
             res.send(sendData);
         }
-    });
+    })
 });
 
 // 添加权限接口
@@ -537,12 +536,7 @@ router.get('/api/deleteAccess', (req, res) => {
 
 // 添加角色权限联系
 router.post('/api/addRoleAccess', (req, res) => {
-    let newRoleAccess = new models.RoleAccess({
-        roleId : req.body.roleId,
-        AccessId : req.body.accessId
-    });
-    // 保存数据newRoleAccess数据进mongoDB
-    newRoleAccess.save((err,data) => {
+    models.RoleAccess.update({roleId: req.body.roleId}, {AccessId: req.body.accessId}, {upsert: true}, (err, data) => {
         if (err) {
             res.send(err);
         } else {
@@ -555,6 +549,51 @@ router.post('/api/addRoleAccess', (req, res) => {
             }
             res.send(sendData);
         }
+    })
+});
+// 通过id查角色
+router.get('/api/getAccessUrlList', (req, res) => {
+    // 通过模型去查找数据库
+    const userId = req.query.id;
+    models.UserRole.find({userId: userId}, (err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            const roleId = data[0].roleId;
+            models.RoleAccess.find({roleId: roleId}, (err, data) => {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if(data.length === 0) {
+                        let sendData = {
+                            code: 1,
+                            urls: []
+                        }
+                        sendData.code = 0;
+                        sendData.urls = urls;
+                        res.send(sendData);
+                    } else {
+                        let sendData = {
+                            code: 1,
+                            urls: []
+                        }
+                        let urls = [];
+                        data[0].AccessId.forEach((item, index) => {
+                            const length = data[0].AccessId.length;
+                            console.log(item);
+                            models.Access.find({_id: item}, (err, data) => {
+                                urls.push(data[0].url);
+                                if(index === length - 1) {
+                                    sendData.urls = urls;
+                                    res.send(sendData);
+                                }
+                            })
+                        })
+                    }
+                }
+            })
+        }
     });
 });
+
 module.exports = router;

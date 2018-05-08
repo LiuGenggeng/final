@@ -20,11 +20,45 @@ export default {
   },
   data () {
     return {
-      stuff: ''
+      stuff: '',
+      allowUrls: []
     }
   },
   mounted: function () {
     this.stuff = sessionStorage.getItem('stuffName')
+    this.getUrl()
+  },
+  methods: {
+    getUrl () {
+      const stuffId = sessionStorage.getItem('stuffId')
+      let params = {
+        id: stuffId
+      }
+      // 获取id对应的权限url列表
+      Vue.http.get('/api/getAccessUrlList', {params: params}, {emulateJSON: true})
+        .then((response) => {
+          // 响应成功回调
+          if (response.body.code === 0) {
+            console.log('无权限')
+          } else if (response.body.code === 1) {
+            sessionStorage.setItem('allowUrl', response.data.urls)
+            this.allowUrls = response.data.urls
+          }
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
+    }
+  },
+  beforeRouteLeave (to, from, next) {
+    // 导航离开该组件的对应路由时调用
+    // 可以访问组件实例 `this`
+    if (this.allowUrls.indexOf(to.path) === -1) {
+      this.$message.error('您无访问该页面权限')
+      next(false)
+    } else {
+      next()
+    }
   }
 }
 </script>

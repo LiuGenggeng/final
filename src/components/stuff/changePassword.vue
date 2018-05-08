@@ -4,7 +4,7 @@
   <div class="function_area">
     <div class="line"><span class="user_name">原始密码:</span><input class="form-control" type="password" id="inputEmail3" placeholder="请输入原始密码" v-model="oldPassword"></div>
     <div class="line"><span class="user_pass">新密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请输入新密码" v-model="newPassword"></div>
-    <div class="line"><span class="user_pass">确认密码:</span><input type="password" class="form-control" id="inputPassword3" placeholder="请确认新密码" v-model="confirmPassword"></div>
+    <div class="line"><span class="user_pass">确认密码:</span><input type="password" class="form-control" id="inputPassword" placeholder="请确认新密码" v-model="confirmPassword"></div>
     <button type="submit" class="btn btn-default login_btn" @click="changePassword">确认修改</button>
   </div>
 </div>
@@ -25,11 +25,13 @@ export default {
       stuff: '',
       oldPassword: '',
       newPassword: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      allowUrls: []
     }
   },
   mounted: function () {
     this.stuff = sessionStorage.getItem('stuffName')
+    this.getAllowUrls()
   },
   methods: {
     changePassword () {
@@ -51,6 +53,20 @@ export default {
         .catch((reject) => {
           console.log(reject)
         })
+    },
+    getAllowUrls () {
+      const allowUrls = sessionStorage.getItem('allowUrl')
+      this.allowUrls = allowUrls.split(',')
+    }
+  },
+  beforeRouteLeave (to, from, next) {
+    // 导航离开该组件的对应路由时调用
+    // 可以访问组件实例 `this`
+    if (this.allowUrls.indexOf(to.path) === -1) {
+      this.$message.error('您无访问该页面权限')
+      next(false)
+    } else {
+      next()
     }
   }
 }

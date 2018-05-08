@@ -111,8 +111,6 @@ export default {
               this.$router.push({path: '/stuff'})
             }
           }
-          // 创建一个账号密码
-          // return this.$http.post('/api/login/createAccount', params)
         })
         .catch((reject) => {
           console.log(reject)

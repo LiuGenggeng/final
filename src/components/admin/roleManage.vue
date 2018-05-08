@@ -185,6 +185,7 @@ export default {
       this.accessRoleId = row._id
     },
     handleCheckAllChange (val) {
+      this.checkedRoleAccesses = []
       this.checkedAccesses = val ? this.accesses : []
       this.checkedAccesses.forEach((item, index) => {
         this.checkedRoleAccesses.push(item._id)

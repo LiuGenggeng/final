@@ -26,12 +26,14 @@ export default {
       stuff: '',
       outerName: '',
       password: '',
-      banner: 'false'
+      banner: 'false',
+      allowUrls: []
     }
   },
   mounted: function () {
     this.stuff = sessionStorage.getItem('stuffName')
     this.banner = sessionStorage.getItem('banner')
+    this.getAllowUrls()
   },
   methods: {
     addOuter () {
@@ -60,6 +62,20 @@ export default {
         .catch((reject) => {
           console.log(reject)
         })
+    },
+    getAllowUrls () {
+      const allowUrls = sessionStorage.getItem('allowUrl')
+      this.allowUrls = allowUrls.split(',')
+    }
+  },
+  beforeRouteLeave (to, from, next) {
+    // 导航离开该组件的对应路由时调用
+    // 可以访问组件实例 `this`
+    if (this.allowUrls.indexOf(to.path) === -1) {
+      this.$message.error('您无访问该页面权限')
+      next(false)
+    } else {
+      next()
     }
   }
 }
