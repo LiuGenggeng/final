@@ -380,6 +380,7 @@ router.post('/api/addRole', (req, res) => {
         }
     });
 });
+
 // 获取所有角色
 router.get('/api/getRoleList', (req, res) => {
     // 通过模型去查找数据库
@@ -442,6 +443,106 @@ router.post('/api/addUserRole', (req, res) => {
     });
     // 保存数据newUserRole数据进mongoDB
     newUserRole.save((err,data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                data: data
+            }
+            if (data.length  === 0) {
+                sendData.code = 0;
+            }
+            res.send(sendData);
+        }
+    });
+});
+
+// 添加权限接口
+router.post('/api/addAccess', (req, res) => {
+    //  权限角色
+    const accessName = req.body.accessName;
+    const accessUrl = req.body.accessUrl;
+    let newAccess = new models.Access({
+        name: accessName,
+        url: accessUrl
+    });
+    // 保存数据newAccount数据进mongoDB
+    newAccess.save((err,data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1
+            }
+            res.send(sendData);
+        }
+    });
+});
+
+// 获取所有权限
+router.get('/api/getAccessList', (req, res) => {
+    // 通过模型去查找数据库
+    models.Access.find({}, (err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1,
+                data: data
+            }
+            if (data.length  === 0) {
+                sendData.code = 0;
+                sendData.data = [];
+            }
+            res.send(sendData);
+        }
+    });
+});
+
+//  修改权限信息
+router.get('/api/fixAccess', (req, res) => {
+    const AccessId = req.query.id;
+    const AccessName = req.query.accessName;
+    const AccessUrl = req.query.accessUrl;
+    // 通过角色id去查找数据库
+    let sendData = {
+        code: 1
+    }
+    models.Access.update({_id: AccessId}, {name: AccessName, url: AccessUrl}, (err, data) => {
+        if (err) {
+            sendData.code = 0;
+            res.send(sendData);
+        } else {
+            sendData.code = 1;
+            res.send(sendData);
+        }
+    });
+});
+
+// 删除权限
+router.get('/api/deleteAccess', (req, res) => {
+    const accessId = req.query.id;
+    models.Access.remove({_id: accessId}, (err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let sendData = {
+                code: 1
+            }
+            res.send(sendData);
+        }
+    })
+});
+
+// 添加角色权限联系
+router.post('/api/addRoleAccess', (req, res) => {
+    let newRoleAccess = new models.RoleAccess({
+        roleId : req.body.roleId,
+        AccessId : req.body.accessId
+    });
+    // 保存数据newRoleAccess数据进mongoDB
+    newRoleAccess.save((err,data) => {
         if (err) {
             res.send(err);
         } else {

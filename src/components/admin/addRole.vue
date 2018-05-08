@@ -41,7 +41,10 @@ export default {
           if (response.body.code === 0) {
             alert('添加失败')
           } else if (response.body.code === 1) {
-            alert('添加成功')
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
             this.$router.push({path: '/roleManage'})
           }
         })

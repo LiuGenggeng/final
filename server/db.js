@@ -48,6 +48,7 @@ const userRoleSchema = mongoose.Schema({
 })
 
 const accessSchema = mongoose.Schema({
+	name: String,
 	url: String
 })
 

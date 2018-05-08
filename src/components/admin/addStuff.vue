@@ -54,7 +54,7 @@ export default {
       // 获取已有账号密码
       Vue.http.post('/api/login/createStuff', params)
         .then((response) => {
-          // 响应成功回调l
+          // 响应成功回调
           console.log(response.body)
           if (response.body.code === 0) {
             alert('创建失败')

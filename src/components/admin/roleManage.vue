@@ -6,9 +6,6 @@
       <router-link :to="{name:'addRole'}" class="addRole">添加角色</router-link>
     </el-col>
   </el-row>
-  <!-- <el-row>
-    <el-col :span="12" :offset="6" class="xian"></el-col>
-  </el-row> -->
   <el-row>
     <el-col :span="12" :offset="6">
       <template>
@@ -26,6 +23,9 @@
               <el-button
                 size="mini"
                 @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button
+                size="mini"
+                @click="handleAccess(scope.$index, scope.row)">关联权限</el-button>
               <el-button
                 size="mini"
                 type="danger"
@@ -47,6 +47,19 @@
     <el-button type="primary" @click="deleteRole()">确 定</el-button>
   </span>
 </el-dialog>
+<el-dialog title="关联权限" :visible.sync="accessDialogFormVisible">
+  <template>
+    <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+    <div style="margin: 15px 0;"></div>
+    <el-checkbox-group v-model="checkedAccesses" @change="handleCheckedCitiesChange">
+      <el-checkbox v-for="access in accesses" :label="access" :key="access">{{access.name}}</el-checkbox>
+    </el-checkbox-group>
+  </template>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="accessDialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="handleRoleAccess">确 定</el-button>
+  </div>
+</el-dialog>
 </div>
 </template>
 
@@ -66,11 +79,19 @@ export default {
       dialogVisible: false,
       tableData: [],
       deleteIndex: 0,
-      fixIndex: 0
+      fixIndex: 0,
+      accessDialogFormVisible: false,
+      checkAll: false,
+      checkedAccesses: [],
+      accesses: [],
+      isIndeterminate: true,
+      accessRoleId: '',
+      checkedRoleAccesses: []
     }
   },
   mounted () {
     this.getRoleList()
+    this.getAccessList()
   },
   methods: {
     handleEdit (index, row) {
@@ -79,7 +100,6 @@ export default {
     handleDelete (index, row) {
       this.dialogVisible = true
       this.deleteIndex = index
-      // this.tableData.splice(index, 1)
     },
     fixRoleName (index, row) {
       this.$prompt('请输入角色名称', '提示', {
@@ -92,6 +112,20 @@ export default {
         console.log(err)
       })
     },
+    getAccessList () {
+      Vue.http.get('/api/getAccessList')
+        .then((response) => {
+          // 响应成功回调
+          if (response.body.code === 0) {
+            console.log('无权限')
+          } else if (response.body.code === 1) {
+            this.accesses = response.body.data
+          }
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
+    },
     deleteRole () {
       let params = {
         id: this.tableData[this.deleteIndex]._id
@@ -103,6 +137,10 @@ export default {
           if (response.body.code === 0) {
             alert('删除失败')
           } else if (response.body.code === 1) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
             this.tableData.splice(this.deletIndex, 1)
           }
         })
@@ -136,6 +174,49 @@ export default {
             console.log('无角色')
           } else if (response.body.code === 1) {
             this.tableData = response.body.data
+          }
+        })
+        .catch((reject) => {
+          console.log(reject)
+        })
+    },
+    handleAccess (index, row) {
+      this.accessDialogFormVisible = true
+      this.accessRoleId = row._id
+    },
+    handleCheckAllChange (val) {
+      this.checkedAccesses = val ? this.accesses : []
+      this.checkedAccesses.forEach((item, index) => {
+        this.checkedRoleAccesses.push(item._id)
+      })
+      this.isIndeterminate = false
+    },
+    handleCheckedCitiesChange (value) {
+      this.checkedRoleAccesses = []
+      let checkedCount = value.length
+      this.checkAll = checkedCount === this.accesses.length
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.accesses.length
+      value.forEach((item, index) => {
+        this.checkedRoleAccesses.push(item._id)
+      })
+      console.log(this.checkedRoleAccesses)
+    },
+    handleRoleAccess () {
+      let params = {
+        roleId: this.accessRoleId,
+        accessId: this.checkedRoleAccesses
+      }
+      Vue.http.post('/api/addRoleAccess', params)
+        .then((response) => {
+          // 响应成功回调
+          if (response.body.code === 0) {
+            alert('添加失败')
+          } else if (response.body.code === 1) {
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+            this.accessDialogFormVisible = false
           }
         })
         .catch((reject) => {
