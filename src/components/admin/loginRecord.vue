@@ -1,6 +1,14 @@
 <template>
 <div>
   <vue-top :admin="admin"></vue-top>
+  <el-row>
+    <el-col :span="6" :offset="9">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>申请wifi登陆密码记录</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+  </el-row>
   <div class="record_area">
     <div class="title">
       <span class="title_name">管理日志记录</span>

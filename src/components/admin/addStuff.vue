@@ -1,6 +1,14 @@
 <template>
 <div>
   <vue-top :admin="admin"></vue-top>
+  <el-row>
+    <el-col :span="6" :offset="9">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>添加公司人员</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+  </el-row>
   <div class="function_area">
     <div class="add_title">添加员工</div>
     <div class="line"><span class="user_name">用户名:</span><input type="text" class="form-control" id="inputEmail3" placeholder="请输入账号" v-model="account"></div>

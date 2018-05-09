@@ -1,6 +1,13 @@
 <template>
 <div>
   <vue-top :admin="admin"></vue-top>
+  <el-row>
+    <el-col :span="6" :offset="9">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+  </el-row>
   <div class="function_area">
     <div><router-link :to="{name:'addStuff'}">添加公司人员</router-link></div>
     <div><router-link :to="{name:'stuffManage'}">员工管理</router-link></div>

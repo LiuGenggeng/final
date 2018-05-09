@@ -1,6 +1,13 @@
 <template>
 <div>
   <vue-top :stuff="stuff"></vue-top>
+  <el-row>
+    <el-col :span="6" :offset="9">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+  </el-row>
   <div class="function_area">
     <div><router-link :to="{name:'applyPassword'}">申请wifi登陆密码</router-link></div>
     <div><router-link :to="{name:'changePassword'}">修改密码</router-link></div>

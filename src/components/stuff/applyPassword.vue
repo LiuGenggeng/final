@@ -1,6 +1,14 @@
 <template>
 <div>
   <vue-top :stuff="stuff"></vue-top>
+  <el-row>
+    <el-col :span="6" :offset="9">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/stuff' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>申请wifi登陆密码</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+  </el-row>
   <div class="apply_area" v-if="banner === 'false'">
     <div><span>申请姓名:</span><input name="name" type="input" class="outer_name" v-model="outerName" placeholder="请输入外来人员姓名" /><button class="confirm" @click="addOuter">确定</button></div>
     <div><span>点击确认生成密码:</span><input name="password" type="input" class="password" v-model="password" placeholder="输入姓名然后点击确定" /></div>

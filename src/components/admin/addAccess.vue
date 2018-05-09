@@ -1,6 +1,15 @@
 <template>
 <div>
   <vue-top :admin="admin"></vue-top>
+  <el-row>
+    <el-col :span="6" :offset="9">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{path: '/admin'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{path: '/accessManage'}">权限管理</el-breadcrumb-item>
+        <el-breadcrumb-item>添加权限</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+  </el-row>
   <el-row style="line-height: 40px">
     <el-col :span="2" :offset="9">
       权限名称:

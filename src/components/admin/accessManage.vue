@@ -2,6 +2,14 @@
 <div>
   <vue-top :admin="admin"></vue-top>
   <el-row>
+    <el-col :span="6" :offset="9">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>权限管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+  </el-row>
+  <el-row>
     <el-col :span="12" :offset="11">
       <router-link :to="{name:'addAccess'}" class="addAccess">添加权限</router-link>
     </el-col>

@@ -1,6 +1,14 @@
 <template>
 <div>
   <vue-top :admin="admin"></vue-top>
+  <el-row>
+    <el-col :span="6" :offset="9">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>员工管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+  </el-row>
   <div class="stuff_area">
     <stuff-inform v-for="item in items" :item="item" :key="item.id" class="stuff_content"></stuff-inform>
   </div>

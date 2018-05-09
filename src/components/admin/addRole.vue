@@ -2,6 +2,15 @@
 <div>
   <vue-top :admin="admin"></vue-top>
   <el-row>
+    <el-col :span="6" :offset="9">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{path: '/admin'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{path: '/roleManage'}">角色管理</el-breadcrumb-item>
+        <el-breadcrumb-item>添加角色</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+  </el-row>
+  <el-row>
       <el-col :span="24">
           角色: <el-input v-model="roleName" placeholder="请输入角色名称" class="roleName"></el-input>
       </el-col>
