@@ -2,7 +2,7 @@
 <div>
   <vue-top :outer="outer"></vue-top>
   <div class="apply_area">
-    <div>test</div>
+    <div>testqwe</div>
     <div><span>密码:</span><input name="name" type="input" class="outer_name" v-model="password" placeholder="请输入接入密码" /><button class="confirm" @click="sendWifiKey">确定</button></div>
   </div>
 </div>
